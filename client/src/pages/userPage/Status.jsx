@@ -4,7 +4,7 @@ import "./Status";
 function Status() {
   const [bookings, setBookings] = useState([]);
   const userId = localStorage.getItem("user_id");
-console.log("bookings",bookings);
+  console.log("bookings", bookings);
   useEffect(() => {
     fetch(`http://localhost:3000/bookings/${userId}`)
       .then((response) => {
@@ -21,8 +21,8 @@ console.log("bookings",bookings);
       });
   }, [userId]);
 
-  if(bookings.length < 1){
-   return <h2>NO Bookings</h2>
+  if (bookings.length < 1) {
+    return <h2>NO Bookings</h2>;
   }
 
   return (
@@ -31,15 +31,21 @@ console.log("bookings",bookings);
         <h1>Booking Status</h1>
         <ul>
           {bookings.map((booking) => (
-           
-           <div  style={customStyle}>
-            <li key={booking.id}>
+            <div style={customStyle}>
+              <li key={booking.id}>
                 Auditorium: {booking.auditorium}, Start Date:{" "}
-                {booking.start_date.slice(0, 10)}, Start Time: {booking.start_time.slice(0, -3)}, End
-                Date: {booking.end_date.slice(0, 10)}, End Time: {booking.end_time.slice(0, -3)}{" "}
-                 Statu: {booking?.is_pending == 1 ? <samp style={{color:"red"}}>pending</samp>:<samp style={{color:"green"}}>approved</samp>}
+                {booking.start_date.slice(0, 10)}, Start Time:{" "}
+                {booking.start_time.slice(0, -3)}, End Date:{" "}
+                {booking.end_date.slice(0, 10)}, End Time:{" "}
+                {booking.end_time.slice(0, -3)} Statu:{" "}
+                {booking?.is_pending == 1 ? (
+                  <samp style={{ color: "red" }}>pending</samp>
+                ) : booking?.is_pending == 2 ? (
+                  <samp style={{ color: "green" }}>approved</samp>
+                ) : (
+                  <samp style={{ color: "red" }}>canceled</samp>
+                )}
               </li>
-              
             </div>
           ))}
         </ul>
@@ -51,11 +57,10 @@ console.log("bookings",bookings);
 export default Status;
 
 const customStyle = {
-    width: "100%",
-    height: "25px",
-    borderRadius: '8px',
-    padding: '16px',
-    marginBottom: '20px',
-    boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px'
-  };
-  
+  width: "100%",
+  height: "25px",
+  borderRadius: "8px",
+  padding: "16px",
+  marginBottom: "20px",
+  boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
+};
